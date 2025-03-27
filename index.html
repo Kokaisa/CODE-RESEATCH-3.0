@@ -407,17 +407,6 @@
         </main>
     </div>
 
-    <div id="modal-container" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
-        <div id="modal" class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700 w-full max-w-md space-y-4">
-            <div id="modal-content" class="space-y-4">
-                 </div>
-            <div id="modal-buttons" class="flex justify-end gap-2">
-                <button id="modal-cancel-button" class="bg-gray-700 hover:bg-gray-600 text-white rounded-md p-2">キャンセル</button>
-                <button id="modal-confirm-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2">OK</button>
-            </div>
-        </div>
-    </div>
-
     <script>
     // ユーティリティ関数
     const $ = (selector) => document.querySelector(selector);
@@ -514,20 +503,10 @@ function Example() {
     let quizAnswer = null;
     let quizScore = 0;
 
-    // モーダル表示・非表示関数
-    function showModal(content, buttons = {}) {
-        const modal = $('#modal-container');
-        const modalContent = $('#modal-content');
-        const modalButtons = $('#modal-buttons');
-
-        modalContent.innerHTML = content;
-        modalButtons.innerHTML = ''; // ボタンをクリア
-
         // ボタンを追加
         Object.entries(buttons).forEach(([label, handler]) => {
             const button = createElement('button', { class: 'bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2' }, label);
             button.addEventListener('click', handler);
-            modalButtons.appendChild(button);
         });
 
         modal.classList.remove('hidden');
