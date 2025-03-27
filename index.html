@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODE in Research</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        /* Custom CSS for Games (Arcade Theme) */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        .game-button {
+            font-family: 'Press Start 2P', cursive;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .game-button:hover {
+            transform: translateY(-0.125rem) scale(1.05);
+            box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
+        }
+
+        .game-button:active {
+            transform: translateY(0) scale(0.95);
+            box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.3);
+        }
+
+        .blue-button {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+        .blue-button:hover { background-color: #2563eb; }
+        .blue-button:active { background-color: #1e40af; }
+
+        .red-button {
+            background-color: #dc2626;
+            color: #fff;
+        }
+        .red-button:hover { background-color: #b91c1c; }
+        .red-button:active { background-color: #991b1b; }
+
+        .green-button {
+            background-color: #16a34a;
+            color: #fff;
+        }
+        .green-button:hover { background-color: #15803d; }
+        .green-button:active { background-color: #14532d; }
+
+        .yellow-button {
+            background-color: #f59e0b;
+            color: #fff;
+        }
+        .yellow-button:hover { background-color: #d97706; }
+        .yellow-button:active { background-color: #b45309; }
+
+        .gray-button {
+            background-color: #6b7280;
+            color: #fff;
+        }
+        .gray-button:hover { background-color: #4b5563; }
+        .gray-button:active { background-color: #374151; }
+
+        .purple-button {
+            background-color: #8b5cf6;
+            color: #fff;
+        }
+        .purple-button:hover { background-color: #7c3aed; }
+        .purple-button:active { background-color: #6d28d9; }
+
+        .pink-button {
+            background-color: #ec4899;
+            color: #fff;
+        }
+        .pink-button:hover { background-color: #db2777; }
+        .pink-button:active { background-color: #c81e5f; }
+
+        /* Chat Styles */
+        .chat-message {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+        }
+        .chat-message.self {
+            align-items: flex-end;
+        }
+        .chat-message.other {
+            align-items: flex-start;
+        }
+        .message-content {
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            max-width: 70%;
+        }
+        .self .message-content {
+            background-color: #3b82f6;
+            color: #fff;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .other .message-content {
+            background-color: #6b7280;
+            color: #fff;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .message-sender {
+            font-size: 0.75rem;
+            color: #d1d5db;
+            margin-bottom: 0.25rem;
+        }
+        .self .message-sender {
+            text-align: right;
+        }
+        .other .message-sender {
+            text-align: left;
+        }
+        .file-link {
+            color: #f5f5f5;
+            text-decoration: underline;
+        }
+
+        /* Avatar Styles */
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            border: 0.125rem solid #8b5cf6;
+        }
+
+        /* Utility */
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-gray-400 { color: #d1d5db; }
+        .text-white { color: #fff; }
+        .font-medium { font-weight: 500; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 0.5rem; }
+        .p-2 { padding: 0.5rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .bg-gray-700 { background-color: #6b7280; }
+        .hover\:bg-gray-600:hover { background-color: #4b5563; }
+        .text-blue-400 { color: #60a5fa; }
+        .hover\:text-blue-300:hover { color: #3b82f6; }
+        .ml-auto { margin-left: auto; }
+        .text-green-400 { color: #22c55e; }
+        .hover\:text-green-300:hover { color: #16a34a; }
+        .w-5 { width: 1.25rem; }
+        .h-5 { height: 1.25rem; }
+        .flex-1 { flex: 1 1 auto; }
+        .border-gray-600 { border-color: #4b5563; }
+        .absolute { position: absolute; }
+        .bottom-16 { bottom: 4rem; }
+        .right-4 { right: 1rem; }
+        .bg-red-500\/20 { background-color: rgba(220, 38, 38, 0.2); }
+        .text-red-400 { color: #f87171; }
+        .hover\:bg-red-500\/30:hover { background-color: rgba(220, 38, 38, 0.3); }
+        .hover\:text-red-300:hover { color: #ef4444; }
+        .z-10 { z-index: 10; }
+        .p-4 { padding: 1rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .overflow-y-auto { overflow-y: auto; }
+        .max-h-\[calc\(100vh-10rem\)\] { max-height: calc(100vh - 10rem); }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .font-semibold { font-weight: 600; }
+        .justify-between { justify-content: space-between; }
+        .w-6 { width: 1.5rem; }
+        .h-6 { height: 1.5rem; }
+        .md\:hidden { display: none; }
+        @media (min-width: 768px) {
+            .md\:hidden { display: none; }
+        }
+        .hidden { display: none; }
+        @media (min-width: 768px) {
+            .hidden { display: none; }
+        }
+        .inline-block { display: inline-block; }
+        .mr-2 { margin-right: 0.5rem; }
+        .rounded-full { border-radius: 9999px; }
+        .bg-gray-700 { background-color: #6b7280; }
+        .text-white { color: #fff; }
+        .hover\:bg-gray-600:hover { background-color: #4b5563; }
+        .relative { position: relative; }
+        .w-20 { width: 5rem; }
+        .h-20 { height: 5rem; }
+        .overflow-hidden { overflow: hidden; }
+        .border-2 { border-width: 0.125rem; }
+        .border-purple-500 { border-color: #8b5cf6; }
+        .object-cover { object-fit: cover; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-4 { gap: 1rem; }
+        .items-start { align-items: flex-start; }
+        .p-6 { padding: 1.5rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .font-bold { font-weight: 700; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) {
+            .grid-cols-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1280px) {
+            .grid-cols-1 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        .gap-6 { gap: 1.5rem; }
+        .bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+        .backdrop-blur-md {
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        .rounded-xl { border-radius: 0.75rem; }
+        .shadow-lg {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .border { border-width: 1px; }
+        .border-white\/10 { border-color: rgba(255, 255, 255, 0.1); }
+        .p-4 { padding: 1rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .font-semibold { font-weight: 600; }
+        .text-white { color: #fff; }
+        .text-gray-400 { color: #d1d5db; }
+        .mt-2 { margin-top: 0.5rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 0.5rem; }
+        .font-medium { font-weight: 500; }
+        .mt-4 { margin-top: 1rem; }
+        .justify-between { justify-content: space-between; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .w-full { width: 100%; }
+        .bg-gray-700 { background-color: #6b7280; }
+        .rounded-full { border-radius: 9999px; }
+        .h-2\.5 { height: 0.625rem; }
+        .bg-purple-500 { background-color: #8b5cf6; }
+        .absolute { position: absolute; }
+        .top-2 { top: 0.5rem; }
+        .right-2 { right: 0.5rem; }
+        .flex { display: flex; }
+        .gap-2 { gap: 0.5rem; }
+        .opacity-0 { opacity: 0; }
+        .group-hover\:opacity-100:hover { opacity: 1; }
+        .transition-opacity {
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 0.15s;
+        }
+        .text-blue-400 { color: #60a5fa; }
+        .hover\:text-blue-300:hover { color: #3b82f6; }
+        .hover\:bg-blue-500\/20:hover { background-color: rgba(59, 130, 246, 0.2); }
+        .text-red-400 { color: #f87171; }
+        .hover\:text-red-300:hover { color: #ef4444; }
+        .hover\:bg-red-500\/20:hover { background-color: rgba(220, 38, 38, 0.2); }
+        .text-gray-300 { color: #d1d5db; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        .bg-gray-800\/90 { background-color: rgba(30, 41, 59, 0.9); }
+        .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .border-gray-700 { border-color: #4b5563; }
+        .flex-wrap { flex-wrap: wrap; }
+        .bg-red-500 { background-color: #dc2626; }
+        .hover\:bg-red-600:hover { background-color: #b91c1c; }
+        .z-30 { z-index: 30; }
+        .fixed { position: fixed; }
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        .bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .max-w-4xl { max-width: 56rem; }
+        .h-\[80vh\] { height: 80vh; }
+        .bg-white { background-color: #fff; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .border { border-width: 1px; }
+        .border-gray-700 { border-color: #4b5563; }
+        .z-40 { z-index: 40; }
+        .-translate-y-1\/2 {
+            transform: translateY(-50%);
+        }
+        .left-4 { left: 1rem; }
+        .top-1\/2 {
+            top: 50%;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-900 font-inter">
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-800 border-r border-gray-700 p-4 space-y-4">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2 text-purple-400 w-6 h-6"><path d="M16 18a4 4 0 0 1-8 0"/><path d="m9 9-3 3 3 3"/><path d="m15 9 3 3-3 3"/></svg>
+                <h1 class="text-xl font-semibold text-white">CODE in Research</h1>
+            </div>
+            <nav class="space-y-2">
+                <a href="#dashboard" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-5 h-5"><rect width="22" height="9" x="1" y="3" rx="4" ry="4"/><rect width="22" height="9" x="1" y="12" rx="4" ry="4"/><path d="M6 6h4"/><path d="M6 15h4"/><path d="M16 6h4"/><path d="M16 15h4"/></svg>
+                    ダッシュボード
+                </a>
+                <a href="#ai-partner" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain-circuit w-5 h-5"><path d="M4.1 11.18a7 7 0 0 1 9.3-9.3"/><path d="M15.54 7.16a7 7 0 0 1-9.3 9.29"/><path d="M12 20v-7"/><path d="M12 7v-4"/><path d="M4 18a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+                    AI学習パートナー
+                </a>
+                <a href="#projects" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-git-2 w-5 h-5"><path d="M9 19a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2z"/><path d="M9 17V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2H9z"/><path d="M14 11h4"/><path d="M12 14h4"/></svg>
+                    プロジェクト
+                </a>
+                <a href="#posts" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open w-5 h-5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/><path d="M12 13h6"/><path d="M12 17h6"/></svg>
+                    記事
+                </a>
+                <a href="#courses" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open w-5 h-5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/><path d="M12 13h6"/><path d="M12 17h6"/></svg>
+                    コース
+                </a>
+                <a href="#users" class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-2 w-5 h-5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-3 3A5 5 00 0 10 13z"/><circle cx="9" cy="4" r="2"/><path d="M17 4c.83 0 1.54.5 1.87 1.22"/><path d="M22 10c0 2.48-1.86 4.5-4.14 4.5S13.72 12.48 13.72 10 15.86 5.5 18.14 5.5 22 7.52 22 10z"/></svg>
+                    ユーザー
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-6 space-y-8">
+            <section id="dashboard">
+                <h2 class="text-3xl font-bold text-white">ダッシュボード</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10">
+                        <h3 class="text-lg font-semibold text-white">プロジェクト数</h3>
+                        <p class="text-gray-400 text-sm mt-2">10</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10">
+                        <h3 class="text-lg font-semibold text-white">タスク数</h3>
+                        <p class="text-gray-400 text-sm mt-2">50</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10">
+                        <h3 class="text-lg font-semibold text-white">ユーザー数</h3>
+                        <p class="text-gray-400 text-sm mt-2">100</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ai-partner">
+                <h2 class="text-3xl font-bold text-white">AI学習パートナー</h2>
+                <div class="bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10 space-y-4">
+                    <div id="chat-container" class="space-y-4 overflow-y-auto max-h-[300px]">
+                        </div>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="text"
+                            id="input-box"
+                            placeholder="質問を入力してください..."
+                            class="flex-1 bg-gray-800 text-white border-gray-700 rounded-md p-2"
+                        />
+                        <button id="send-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M18 18 10 6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects">
+                <h2 class="text-3xl font-bold text-white">プロジェクト</h2>
+                <div id="project-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+                 <div class="mt-6">
+                    <button id="create-project-button" class="bg-purple-500 hover:bg-purple-600 text-white rounded-md p-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        プロジェクトを作成
+                    </button>
+                </div>
+            </section>
+
+            <section id="posts">
+                <h2 class="text-3xl font-bold text-white">記事</h2>
+                <div id="post-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+            </section>
+
+            <section id="courses">
+                <h2 class="text-3xl font-bold text-white">コース</h2>
+                <div id="course-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+            </section>
+
+            <section id="users">
+                <h2 class="text-3xl font-bold text-white">ユーザー</h2>
+                <div id="user-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal-container" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div id="modal" class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700 w-full max-w-md space-y-4">
+            <div id="modal-content" class="space-y-4">
+                 </div>
+            <div id="modal-buttons" class="flex justify-end gap-2">
+                <button id="modal-cancel-button" class="bg-gray-700 hover:bg-gray-600 text-white rounded-md p-2">キャンセル</button>
+                <button id="modal-confirm-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ユーティリティ関数
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+    const createElement = (tag, attrs = {}, text = '') => {
+        const el = document.createElement(tag);
+        Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
+        el.textContent = text;
+        return el;
+    };
+
+    // グローバル変数
+    let projects = [
+        {
+            id: 'project1',
+            title: 'プロジェクトA',
+            description: 'Reactアプリケーション開発',
+            members: [
+                { id: 'user1', name: '太郎', email: 'taro@example.com', avatar: 'https://placehold.co/40x40/000/FFF?text=T', skills: ['React', 'Node.js', 'TypeScript'] },
+                { id: 'user2', name: '花子', email: 'hanako@example.com', avatar: 'https://placehold.co/40x40/FFF/000?text=H', skills: ['JavaScript', 'HTML', 'CSS'] }
+            ],
+            tasks: [
+                { id: 'task1', title: 'UI設計', description: 'FigmaでUIをデザインする', status: 'done', assignee: { id: 'user1', name: '太郎', email: 'taro@example.com', avatar: 'https://placehold.co/40x40/000/FFF?text=T', skills: ['React', 'Node.js', 'TypeScript'] }, priority: 'high' },
+                { id: 'task2', title: 'API実装', description: 'バックエンドAPIを実装する', status: 'in progress', assignee: { id: 'user2', name: '花子', email: 'hanako@example.com', avatar: 'https://placehold.co/40x40/FFF/000?text=H', skills: ['JavaScript', 'HTML', 'CSS'] }, priority: 'medium' },
+                { id: 'task3', title: 'テスト', description: '単体テストと結合テストを行う', status: 'todo', assignee: { id: 'user1', name: '太郎', email: 'taro@example.com', avatar: 'https://placehold.co/40x40/000/FFF?text=T', skills: ['React', 'Node.js', 'TypeScript'] }, priority: 'low' }
+            ],
+            status: 'in progress',
+            startDate: new Date(2024, 0, 1),
+            endDate: new Date(2024, 2, 30)
+        },
+        {
+            id: 'project2',
+            title: 'プロジェクトB',
+            description: 'Node.js API開発',
+            members: [
+                { id: 'user3', name: '次郎', email: 'jiro@example.com', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J', skills: ['Python', 'Django', 'SQL'] }
+            ],
+            tasks: [
+                { id: 'task4', title: 'DB設計', description: 'データベースのスキーマを設計する', status: 'done', assignee: { id: 'user3', name: '次郎', email: 'jiro@example.com', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J', skills: ['Python', 'Django', 'SQL'] }, priority: 'high' },
+                { id: 'task5', title: 'API実装', description: 'RESTful APIを実装する', status: 'in progress', assignee: { id: 'user3', name: '次郎', email: 'jiro@example.com', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J', skills: ['Python', 'Django', 'SQL'] }, priority: 'medium' }
+            ],
+            status: 'in progress',
+            startDate: new Date(2024, 1, 15),
+            endDate: new Date(2024, 3, 30)
+        }
+    ];
+
+    let users = [
+        { id: 'user1', name: '太郎', email: 'taro@example.com', avatar: 'https://placehold.co/40x40/000/FFF?text=T', skills: ['React', 'Node.js', 'TypeScript'] },
+        { id: 'user2', name: '花子', email: 'hanako@example.com', avatar: 'https://placehold.co/40x40/FFF/000?text=H', skills: ['JavaScript', 'HTML', 'CSS'] },
+        { id: 'user3', name: '次郎', email: 'jiro@example.com', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J', skills: ['Python', 'Django', 'SQL'] },
+    ];
+
+    let aiMessages = [
+        { id: 'ai-1', text: 'こんにちは！今日はReactのuseStateについて一緒に学ぼうね。', type: 'text' },
+        { id: 'ai-2', text: 'まずは、useStateの基本的な使い方から説明するね。', type: 'text' },
+        {
+            id: 'ai-3',
+            text: 'はい、`useState` はReactでstateを管理するためのHookだよ。こんな感じで使うよ。',
+            type: 'code',
+            code: `
+import React, { useState } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+            `
+        },
+        { id: 'ai-4', text: 'このコードについて、何か質問はあるかな？', type: 'text' },
+        {
+            id: 'ai-5',
+            text: 'じゃあ、理解度チェックのクイズを出すね！',
+            type: 'quiz',
+            quiz: {
+                question: '`useState` の第一引数は何？',
+                options: ['初期state', '更新関数', 'コンポーネント', 'イベント'],
+                correctAnswer: 0, // '初期state' が正解
+            }
+        },
+    ];
+
+    let editingProject = null;
+    let editingTask = null;
+    let selectedProjectIdForTask = null;
+    let quizAnswer = null;
+    let quizScore = 0;
+
+    // モーダル表示・非表示関数
+    function showModal(content, buttons = {}) {
+        const modal = $('#modal-container');
+        const modalContent = $('#modal-content');
+        const modalButtons = $('#modal-buttons');
+
+        modalContent.innerHTML = content;
+        modalButtons.innerHTML = ''; // ボタンをクリア
+
+        // ボタンを追加
+        Object.entries(buttons).forEach(([label, handler]) => {
+            const button = createElement('button', { class: 'bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2' }, label);
+            button.addEventListener('click', handler);
+            modalButtons.appendChild(button);
+        });
+
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // スクロールバーを非表示
+    }
+
+    function hideModal() {
+        const modal = $('#modal-container');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // スクロールバーを元に戻す
+    }
+
+    // ユーザーインターフェース更新関数
+    function renderProjects() {
+        const projectList = $('#project-list');
+        projectList.innerHTML = ''; // Clear existing content
+
+        projects.forEach(project => {
+            const projectCard = createElement('div', { class: 'bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10' });
+            projectCard.innerHTML = `
+                <h3 class="text-lg font-semibold text-white">${project.title}</h3>
+                <p class="text-gray-400 text-sm">${project.description}</p>
+                <div class="mt-2">
+                    <span class="text-gray-300 font-medium">メンバー: </span>
+                    <div class="flex items-center gap-2 mt-1">
+                        ${project.members.map(user => `<img src="${user.avatar}" alt="${user.name}" class="w-10 h-10 rounded-full border-2 border-purple-500" />`).join('')}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-300 text-sm">進捗:</span>
+                        <span class="text-white font-medium">${calculateProgress(project.tasks)}%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2.5">
+                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: ${calculateProgress(project.tasks)}%"></div>
+                    </div>
+                </div>
+                 <div class="mt-4">
+                    <h4 class="text-md font-semibold text-white mb-2">タスク</h4>
+                     <div id="task-list-${project.id}" class="space-y-3">
+                       ${project.tasks.map(task => renderTaskCard(task, project.id)).join('')}
+                     </div>
+                      <button
+                        class="add-task-button bg-green-500/20 text-green-400 hover:bg-green-500/30 hover:text-green-300 rounded-md p-2 mt-2 w-full"
+                        data-project-id="${project.id}"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle w-4 h-4 mr-2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                        タスクを追加
+                      </button>
+                </div>
+                <div class="absolute top-2 right-2 flex gap-2">
+                    <button class="edit-project-button bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md p-1" data-project-id="${project.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit w-4 h-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button class="delete-project-button bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md p-1" data-project-id="${project.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2 w-4 h-4"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                </div>
+            `;
+            projectList.appendChild(projectCard);
+
+             // タスク追加ボタンのイベントリスナー
+            const addTaskButton = projectCard.querySelector('.add-task-button');
+            addTaskButton.addEventListener('click', (event) => {
+                const projectId = event.target.dataset.projectId;
+                selectedProjectIdForTask = projectId; // グローバル変数に設定
+                showCreateTaskModal(projectId);
+            });
+
+            // タスク編集ボタンのイベントリスナー
+            const editTaskButtons = projectCard.querySelectorAll('.edit-task-button');
+            editTaskButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskId = event.target.dataset.taskId;
+                    const projectId = event.target.dataset.projectId;
+                    const task = projects.find(p => p.id === projectId).tasks.find(t => t.id === taskId);
+                    editingTask = task;
+                    selectedProjectIdForTask = projectId;
+                    showCreateTaskModal(projectId, task); // 既存のタスクを渡す
+                });
+            });
+
+            // タスク削除ボタンのイベントリスナー
+            const deleteTaskButtons = projectCard.querySelectorAll('.delete-task-button');
+            deleteTaskButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskId = event.target.dataset.taskId;
+                    const projectId = event.target.dataset.projectId;
+                    deleteTask(taskId, projectId);
+                });
+            });
+
+            // プロジェクト編集ボタン
+            const editButton = projectCard.querySelector('.edit-project-button');
+            editButton.addEventListener('click', () => {
+                const projectId = project.id;
+                const projectToEdit = projects.find(p => p.id === projectId);
+                editingProject = projectToEdit;
+                showCreateProjectModal(projectToEdit);
+            });
+
+            // プロジェクト削除ボタン
+            const deleteButton = projectCard.querySelector('.delete-project-button');
+            deleteButton.addEventListener('click', () => {
+                const projectId = project.id;
+                showModal(`プロジェクト「${project.title}」を削除しますか？`, {
+                    'キャンセル': hideModal,
+                    '削除': () => {
+                        deleteProject(projectId);
+                        hideModal();
+                    }
+                });
+            });
+        });
+    }
+
+    function renderTaskCard(task, projectId) {
+        const statusColor = task.status === 'done' ? 'text-green-400' : task.status === 'in progress' ? 'text-blue-400' : 'text-gray-400';
+        const priorityColor = task.priority === 'high' ? 'text-red-400' : task.priority === 'medium' ? 'text-yellow-400' : 'text-green-400';
+
+        return `
+            <div class="bg-gray-800/90 backdrop-blur-md rounded-lg p-3 shadow-md border border-gray-700 relative group">
+                <h4 class="text-md font-semibold text-white">${task.title}</h4>
+                <p class="text-gray-400 text-sm">${task.description}</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    <span class="text-xs font-medium ${statusColor}">Status: ${task.status}</span>
+                    <span class="text-xs font-medium ${priorityColor}">Priority: ${task.priority}</span>
+                    ${task.assignee ? `<div class="flex items-center gap-1"><span class="text-gray-300 text-xs font-medium">担当:</span><img src="${task.assignee.avatar}" alt="${task.assignee.name}" class="w-6 h-6 rounded-full border border-purple-500" /></div>` : ''}
+                </div>
+                <div class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="edit-task-button bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 hover:text-blue-300 rounded-md p-1" data-task-id="${task.id}" data-project-id="${projectId}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit w-4 h-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button class="delete-task-button bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 rounded-md p-1" data-task-id="${task.id}" data-project-id="${projectId}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2 w-4 h-4"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderUsers() {
+        const userList = $('#user-list');
+        userList.innerHTML = '';
+        users.forEach(user => {
+            const userCard = createElement('div', { class: 'bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10 flex items-center gap-4' });
+            userCard.innerHTML = `
+                <img src="${user.avatar}" alt="${user.name}" class="w-12 h-12 rounded-full border-2 border-purple-500">
+                <div>
+                    <h3 class="text-lg font-semibold text-white">${user.name}</h3>
+                    <p class="text-gray-400 text-sm">${user.email}</p>
+                     <div class="mt-2">
+                        <span class="text-gray-300 font-medium text-sm">Skills: </span>
+                         ${user.skills.map(skill => `<span class="bg-purple-500/20 text-purple-300 rounded-full px-2 py-1 text-xs font-medium">${skill}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+            userList.appendChild(userCard);
+        });
+    }
+
+    function renderPosts() {
+        const postList = $('#post-list');
+        postList.innerHTML = ''; // Clear existing content
+
+        const dummyPosts = [
+            {
+                id: 'post1',
+                title: 'React Hooksのすべて',
+                content: 'この記事では、React Hooksの使い方を解説します。useState, useEffect, useContextなど...',
+                author: { id: 'user1', name: '太郎', avatar: 'https://placehold.co/40x40/000/FFF?text=T' },
+                date: '2024-07-28',
+                tags: ['React', 'Hooks', 'JavaScript']
+            },
+            {
+                id: 'post2',
+                title: 'Node.jsベストプラクティス',
+                content: 'Node.jsでスケーラブルなアプリケーションを構築するためのベストプラクティスを紹介します。',
+                author: { id: 'user2', name: '花子', avatar: 'https://placehold.co/40x40/FFF/000?text=H' },
+                date: '2024-07-25',
+                tags: ['Node.js', 'Backend', 'JavaScript']
+            },
+             {
+                id: 'post3',
+                title: 'Pythonで始めるAI開発',
+                content: 'PythonとTensorFlow, PyTorchを使ったAI開発の基礎を解説します。',
+                author: { id: 'user3', name: '次郎', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J' },
+                date: '2024-07-20',
+                tags: ['Python', 'AI', 'TensorFlow', 'PyTorch']
+            },
+        ];
+
+        dummyPosts.forEach(post => {
+            const postCard = createElement('div', { class: 'bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10 space-y-4' });
+            postCard.innerHTML = `
+                <h3 class="text-xl font-semibold text-white">${post.title}</h3>
+                <p class="text-gray-400 text-sm">${post.content}</p>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <img src="${post.author.avatar}" alt="${post.author.name}" class="w-8 h-8 rounded-full border border-purple-500">
+                        <span class="text-gray-300 font-medium">${post.author.name}</span>
+                    </div>
+                    <span class="text-gray-500 text-sm">${post.date}</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    ${post.tags.map(tag => `<span class="bg-blue-500/20 text-blue-300 rounded-full px-2 py-1 text-xs font-medium">${tag}</span>`).join('')}
+                </div>
+            `;
+            postList.appendChild(postCard);
+        });
+    }
+
+    function renderCourses() {
+      const courseList = $('#course-list');
+      courseList.innerHTML = '';
+
+        const dummyCourses = [
+            {
+                id: 'course1',
+                title: 'React入門',
+                instructor: { id: 'user1', name: '太郎', avatar: 'https://placehold.co/40x40/000/FFF?text=T' },
+                description: 'Reactの基礎を学び、簡単なアプリケーションを作成します。',
+                price: 2980,
+                status: 'published',
+                thumbnail: 'https://placehold.co/600x400/800080/FFFFFF?text=React+Intro&font=Montserrat'
+            },
+            {
+                id: 'course2',
+                title: 'Node.jsマスターコース',
+                instructor: { id: 'user2', name: '花子', avatar: 'https://placehold.co/40x40/FFF/000?text=H' },
+                description: 'Node.jsでスケーラブルなバックエンドAPIを構築します。',
+                price: 3980,
+                status: 'published',
+                thumbnail: 'https://placehold.co/600x400/006400/FFFFFF?text=Node.js+Master&font=Montserrat'
+            },
+            {
+                id: 'course3',
+                title: 'PythonによるAI開発',
+                instructor: { id: 'user3', name: '次郎', avatar: 'https://placehold.co/40x40/0F0/FFF?text=J' },
+                description: 'Pythonと主要なライブラリを使ってAIアプリケーションを開発します。',
+                price: 4980,
+                status: 'draft',
+                thumbnail: 'https://placehold.co/600x400/228B22/FFFFFF?text=Python+AI&font=Montserrat'
+            },
+        ];
+
+      dummyCourses.forEach(course => {
+          const courseCard = createElement('div', { class: 'bg-white/5 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/10' });
+          courseCard.innerHTML = `
+              <img src="${course.thumbnail}" alt="${course.title}" class="w-full h-48 object-cover rounded-md mb-4">
+              <h3 class="text-xl font-semibold text-white">${course.title}</h3>
+              <div class="flex items-center gap-2 mb-2">
+                  <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="w-8 h-8 rounded-full border border-purple-500">
+                  <span class="text-gray-300 font-medium">Instructor: ${course.instructor.name}</span>
+              </div>
+              <p class="text-gray-400 text-sm">${course.description}</p>
+              <p class="text-white font-medium">Price: $${course.price}</p>
+               <span class="text-xs font-medium ${course.status === 'published' ? 'text-green-400' : 'text-yellow-400'}">
+                Status: ${course.status === 'published' ? 'Published' : 'Draft'}
+               </span>
+          `;
+          courseList.appendChild(courseCard);
+      });
+    }
+
+    function calculateProgress(tasks) {
+        if (tasks.length === 0) return 0;
+        const doneTasks = tasks.filter(task => task.status === 'done').length;
+        return Math.round((doneTasks / tasks.length) * 100);
+    }
+
+    function showCreateProjectModal(project = null) {
+        editingProject = project;
+        const title = project ? 'プロジェクト編集' : 'プロジェクト作成';
+        const content = `
+            <div class="space-y-4">
+                <div>
+                    <label for="project-title" class="block text-sm font-medium text-gray-300">プロジェクト名</label>
+                    <input type="text" id="project-title" value="${project ? project.title : ''}" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full" placeholder="プロジェクト名">
+                </div>
+                <div>
+                    <label for="project-description" class="block text-sm font-medium text-gray-300">説明</label>
+                    <textarea id="project-description" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full" placeholder="プロジェクトの説明">${project ? project.description : ''}</textarea>
+                </div>
+                <div>
+                    <label for="project-members" class="block text-sm font-medium text-gray-300">メンバー</label>
+                     <div id="project-members-list" class="mt-2 space-y-2">
+                       ${users.map(user => `
+                         <div class="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="member-${user.id}"
+                                class="h-4 w-4 rounded border-gray-600 text-blue-500 focus:ring-blue-500"
+                                ${project?.members.find(m => m.id === user.id) ? 'checked' : ''}
+                            >
+                            <label for="member-${user.id}" class="text-sm font-medium text-gray-300">${user.name}</label>
+                         </div>
+                       `).join('')}
+                     </div>
+                </div>
+                 <div>
+                    <label for="project-start-date" class="block text-sm font-medium text-gray-300">開始日</label>
+                    <input type="date" id="project-start-date" value="${project ? project.startDate.toISOString().split('T')[0] : ''}" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full">
+                </div>
+                <div>
+                    <label for="project-end-date" class="block text-sm font-medium text-gray-300">終了日</label>
+                    <input type="date" id="project-end-date" value="${project ? project.endDate.toISOString().split('T')[0] : ''}" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full">
+                </div>
+            </div>
+        `;
+
+        showModal(content, {
+            'キャンセル': hideModal,
+            'OK': () => {
+                const title = $('#project-title').value;
+                const description = $('#project-description').value;
+                const memberIds = Array.from($$('[id^="member-"]:checked')).map(input => input.id.replace('member-', ''));
+                const startDate = new Date($('#project-start-date').value);
+                const endDate = new Date($('#project-end-date').value);
+                const members = users.filter(user => memberIds.includes(user.id));
+
+                if (!title || !description) {
+                    alert('プロジェクト名と説明を入力してください。');
+                    return;
+                }
+
+                 if (startDate > endDate) {
+                    alert('開始日は終了日より前にしてください。');
+                    return;
+                }
+
+                if (editingProject) {
+                    // Update existing project
+                    editingProject.title = title;
+                    editingProject.description = description;
+                    editingProject.members = members;
+                    editingProject.startDate = startDate;
+                    editingProject.endDate = endDate;
+
+                } else {
+                    // Create new project
+                    const newProject = {
+                        id: `project-${Date.now()}`,
+                        title,
+                        description,
+                        members,
+                        tasks: [],
+                        status: 'todo',
+                        startDate,
+                        endDate
+                    };
+                    projects.push(newProject);
+                }
+                renderProjects();
+                hideModal();
+            }
+        });
+    }
+
+    function showCreateTaskModal(projectId, task = null) {
+        editingTask = task;
+        const title = task ? 'タスク編集' : 'タスク作成';
+        const content = `
+            <div class="space-y-4">
+                <div>
+                    <label for="task-title" class="block text-sm font-medium text-gray-300">タスク名</label>
+                    <input type="text" id="task-title" value="${task ? task.title : ''}" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full" placeholder="タスク名">
+                </div>
+                <div>
+                    <label for="task-description" class="block text-sm font-medium text-gray-300">説明</label>
+                    <textarea id="task-description" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full" placeholder="タスクの説明">${task ? task.description : ''}</textarea>
+                </div>
+                <div>
+                    <label for="task-status" class="block text-sm font-medium text-gray-300">ステータス</label>
+                    <select id="task-status" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full">
+                        <option value="todo" ${task?.status === 'todo' ? 'selected' : ''}>TODO</option>
+                        <option value="in progress" ${task?.status === 'in progress' ? 'selected' : ''}>進行中</option>
+                        <option value="done" ${task?.status === 'done' ? 'selected' : ''}>完了</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="task-priority" class="block text-sm font-medium text-gray-300">優先度</label>
+                    <select id="task-priority" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full">
+                        <option value="high" ${task?.priority === 'high' ? 'selected' : ''}>高</option>
+                        <option value="medium" ${task?.priority === 'medium' ? 'selected' : ''}>中</option>
+                        <option value="low" ${task?.priority === 'low' ? 'selected' : ''}>低</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="task-assignee" class="block text-sm font-medium text-gray-300">担当者</label>
+                    <select id="task-assignee" class="mt-1 bg-gray-800 text-white border-gray-700 rounded-md p-2 w-full">
+                        <option value="">未選択</option>
+                        ${users.map(user => `<option value="${user.id}" ${task?.assignee?.id === user.id ? 'selected' : ''}>${user.name}</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+        `;
+
+        showModal(content, {
+            'キャンセル': hideModal,
+            'OK': () => {
+                const title = $('#task-title').value;
+                const description = $('#task-description').value;
+                const status = $('#task-status').value;
+                const priority = $('#task-priority').value;
+                const assigneeId = $('#task-assignee').value;
+                const assignee = assigneeId ? users.find(user => user.id === assigneeId) : null;
+
+                if (!title || !description) {
+                    alert('タスク名と説明を入力してください。');
+                    return;
+                }
+
+                if (editingTask) {
+                     // Update existing task
+                    editingTask.title = title;
+                    editingTask.description = description;
+                    editingTask.status = status;
+                    editingTask.priority = priority;
+                    editingTask.assignee = assignee;
+
+                    // Find the project and update the task
+                    const project = projects.find(p => p.id === selectedProjectIdForTask);
+                    if (project) {
+                        const taskIndex = project.tasks.findIndex(t => t.id === editingTask.id);
+                        if (taskIndex > -1) {
+                            project.tasks[taskIndex] = editingTask;
+                        }
+                    }
+
+                } else {
+                    // Create new task
+                    const newTask = {
+                        id: `task-${Date.now()}`,
+                        title,
+                        description,
+                        status,
+                        priority,
+                        assignee
+                    };
+
+                    const project = projects.find(p => p.id === selectedProjectIdForTask);
+                    if (project) {
+                        project.tasks.push(newTask);
+                    }
+                }
+                renderProjects();
+                hideModal();
+            }
+        });
+    }
+
+    function deleteTask(taskId, projectId) {
+        showModal('タスク削除', 'このタスクを削除しますか？', {
+            'キャンセル': hideModal,
+            '削除': () => {
+                const project = projects.find(p => p.id === projectId);
+                if (project) {
+                    project.tasks = project.tasks.filter(t => t.id !== taskId);
+                }
+                renderProjects();
+                hideModal();
+            }
+        });
+    }
+
+     function deleteProject(projectId) {
+        showModal('プロジェクト削除', 'このプロジェクトを削除しますか？', {
+            'キャンセル': hideModal,
+            '削除': () => {
+                projects = projects.filter(p => p.id !== projectId);
+                renderProjects();
+                hideModal();
+            }
+        });
+    }
+
+    // イベントリスナー
+    $('#create-project-button').addEventListener('click', () => showCreateProjectModal());
+
+    $('#modal-cancel-button').addEventListener('click', hideModal);
+
+    $('#send-button').addEventListener('click', () => {
+        const input = $('#input-box').value;
+        if (!input) return;
+
+        const chatContainer = $('#chat-container');
+        chatContainer.appendChild(createChatMessage(input, 'self'));
+        $('#input-box').value = '';
+
+        // AIの応答をシミュレート
+        setTimeout(() => {
+            const aiResponse = getAIResponse(input);
+            chatContainer.appendChild(createChatMessage(aiResponse.text, 'other', aiResponse.type, aiResponse.code || aiResponse.quiz));
+             // クイズの場合のイベントリスナー設定
+            if (aiResponse.type === 'quiz') {
+                const quizOptions = $$('.quiz-option');
+                quizOptions.forEach((option, index) => {
+                    option.addEventListener('click', () => {
+                        handleQuizAnswer(index, aiResponse.quiz.correctAnswer);
+                    });
+                });
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 1000);
+    });
+
+    function getAIResponse(userInput) {
+        // 簡単なキーワードマッチングで応答を生成
+        const lowerCaseInput = userInput.toLowerCase();
+
+        if (lowerCaseInput.includes('こんにちは')) {
+            return { text: 'こんにちは！何かお手伝いできることはあるかな？', type: 'text' };
+        } else if (lowerCaseInput.includes('useState') && lowerCaseInput.includes('使い方')) {
+            return aiMessages[2];
+        } else if (lowerCaseInput.includes('クイズ')) {
+             return aiMessages[4];
+        } else if (lowerCaseInput.includes('プロジェクト')) {
+            return { text: 'プロジェクトについては、ダッシュボードのプロジェクトセクションを見てね！', type: 'text' };
+        } else {
+            return { text: 'ごめんね、まだ学習不足でよくわからないんだ。別のことを聞いてみてくれる？', type: 'text' };
+        }
+    }
+
+    function createChatMessage(text, sender, type = 'text', data = null) {
+        const message = createElement('div', { class: `chat-message ${sender}` });
+        const content = createElement('div', { class: 'message-content' });
+
+        if (sender === 'self') {
+            content.textContent = text;
+        } else {
+            if (type === 'text') {
+                content.textContent = text;
+            } else if (type === 'code') {
+                content.innerHTML = `<pre class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto"><code class="language-javascript">${data}</code></pre>`;
+                // コードハイライト
+                hljs.highlightElement(content.querySelector('code'));
+            } else if (type === 'quiz') {
+                content.textContent = data.question;
+                const optionsDiv = createElement('div', { class: 'mt-2 space-y-2' });
+                data.options.forEach((option, index) => {
+                    const optionButton = createElement('button', { class: 'quiz-option bg-gray-700 hover:bg-gray-600 text-white rounded-md p-2 w-full text-left' }, option);
+                    optionButton.dataset.optionIndex = index;
+                    optionsDiv.appendChild(optionButton);
+                });
+                content.appendChild(optionsDiv);
+            }
+        }
+
+        message.appendChild(content);
+        return message;
+    }
+
+    function handleQuizAnswer(selectedIndex, correctAnswerIndex) {
+        if (quizAnswer !== null) return;  // Prevent multiple answers
+        quizAnswer = selectedIndex;
+
+        const options = $$('.quiz-option');
+        options.forEach((option, index) => {
+            if (index === correctAnswerIndex) {
+                option.classList.add('bg-green-500');
+            } else if (index === selectedIndex) {
+                option.classList.add('bg-red-500');
+            } else {
+                option.classList.add('bg-gray-500'); // 非選択肢をグレーアウト
+            }
+        });
+
+        if (selectedIndex === correctAnswerIndex) {
+            quizScore++;
+            alert('正解！現在のスコア: ' + quizScore);
+        } else {
+            alert('残念！正解は ' + options[correctAnswerIndex].textContent + ' でした。現在のスコア: ' + quizScore);
+        }
+
+        // Reset quiz answer for the next question
+        setTimeout(() => {
+            quizAnswer = null;
+        }, 2000);
+    }
+
+    // 初期描画
+    renderProjects();
+    renderUsers();
+    renderPosts();
+    renderCourses();
+
+    // 開発者ツールからグローバルにアクセスできるようにする (デバッグ用)
+    window.projects = projects;
+    window.users = users;
+    window.showModal = showModal;
+    window.hideModal = hideModal;
+    window.renderProjects = renderProjects;
+    window.renderUsers = renderUsers;
+    window.renderPosts = renderPosts;
+    window.renderCourses = renderCourses;
+    window.createElement = createElement;
+    window.$ = $;
+    window.$$ = $$;
+
+    </script>
+</body>
+</html>
